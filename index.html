@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3D Force Graph</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+    #3d-graph {
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <div id="3d-graph"></div>
+
+  <!-- Include the 3d-force-graph library -->
+  <script src="https://unpkg.com/3d-force-graph"></script>
+
+  <script>
+    const graphData = {
+      nodes: [
+        { id: 'A', val: 3 },
+        { id: 'B', val: 1 },
+        { id: 'C', val: 10 }
+      ],
+      links: [
+        { source: 'A', target: 'B' },
+        { source: 'A', target: 'C' }
+      ]
+    };
+
+    const Graph = ForceGraph3D()
+      (document.getElementById('3d-graph'))
+      .graphData(graphData)
+      .nodeAutoColorBy('id')
+      .nodeLabel(node => `${node.id} (val: ${node.val})`)
+      .nodeThreeObject(node => {
+        const sprite = new THREE.Mesh(
+          new THREE.SphereGeometry(Math.sqrt(node.val), 16, 16),
+          new THREE.MeshBasicMaterial({ color: node.color })
+        );
+        return sprite;
+      });
+  </script>
+</body>
+</html>
